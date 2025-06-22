@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-// import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/db';
 import CategoryCard from '@/components/category-card';
 import { Header } from '@/components/header';
 import { Hero } from '@/components/hero';
@@ -868,12 +868,7 @@ const mockStories = {
 };
 
 async function getAllStories() {
-  // 模拟异步延迟
-  await new Promise(resolve => setTimeout(resolve, 100));
-  
-  return mockStories;
-  
-  /* 数据库查询代码（等配置好数据库后启用）
+  // 先尝试从数据库获取数据
   try {
     const stories = await prisma.hnItem.findMany({
       where: {
@@ -893,25 +888,113 @@ async function getAllStories() {
         { score: 'desc' },
         { time: 'desc' }
       ],
-      take: 100
+      take: 200 // 获取更多数据用于分类
     });
 
-    // 按类型分组
-    const groupedStories = {
-      top: stories.filter(s => s.type === 'story').slice(0, 10),
-      new: stories.slice(0, 10),
-      best: stories.filter(s => s.score > 100).slice(0, 10),
-      ask: stories.filter(s => s.type === 'ask').slice(0, 10),
-      show: stories.filter(s => s.type === 'show').slice(0, 10),
-      job: stories.filter(s => s.type === 'job').slice(0, 10)
-    };
+    if (stories.length > 0) {
+      // 按类型和时间分组
+      const now = new Date();
+      const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      
+      const groupedStories = {
+        top: stories
+          .filter(s => s.time >= last24Hours && (s.type === 'story' || !s.type))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          })),
+        new: stories
+          .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          })),
+        best: stories
+          .filter(s => s.score > 50)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          })),
+        ask: stories
+          .filter(s => s.type === 'ask')
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          })),
+        show: stories
+          .filter(s => s.type === 'show')
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          })),
+        job: stories
+          .filter(s => s.type === 'job')
+          .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+          .slice(0, 10)
+          .map(story => ({
+            id: story.id,
+            title: story.title || '',
+            url: story.url,
+            score: story.score,
+            by: story.by || '',
+            time: story.time.toISOString(),
+            descendants: story.descendants
+          }))
+      };
 
-    return groupedStories;
+      console.log('Using database data:', {
+        top: groupedStories.top.length,
+        new: groupedStories.new.length,
+        best: groupedStories.best.length,
+        ask: groupedStories.ask.length,
+        show: groupedStories.show.length,
+        job: groupedStories.job.length
+      });
+
+      return groupedStories;
+    }
   } catch (error) {
-    console.error('Error fetching stories:', error);
-    return mockStories;
+    console.error('Error fetching from database:', error);
   }
-  */
+
+  // 如果数据库没有数据或出错，使用模拟数据
+  console.log('Using mock data as fallback');
+  await new Promise(resolve => setTimeout(resolve, 100));
+  return mockStories;
 }
 
 export default async function Home() {

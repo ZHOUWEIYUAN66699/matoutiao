@@ -24,7 +24,7 @@ import {
 interface Story {
   id: number;
   title: string;
-  url?: string;
+  url?: string | null;
   score: number;
   by: string;
   time: string;
@@ -73,7 +73,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     }
   };
 
-  const extractDomain = (url: string | undefined) => {
+  const extractDomain = (url: string | undefined | null) => {
     if (!url) return null;
     try {
       return new URL(url).hostname.replace('www.', '');
