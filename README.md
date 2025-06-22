@@ -1,4 +1,4 @@
-# HackerNews 中文版
+# HackerNews 中文版qqq
 
 > 实时获取并翻译 Hacker News 内容，为中文开发者提供最新技术资讯
 
