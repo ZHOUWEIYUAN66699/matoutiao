@@ -1,0 +1,26 @@
+{
+  "name": "HackerNews 中文版",
+  "short_name": "HN 中文",
+  "description": "实时获取并翻译 Hacker News 内容，为中文开发者提供最新技术资讯",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF6600",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["news", "technology", "productivity"],
+  "lang": "zh-CN",
+  "dir": "ltr"
+} 

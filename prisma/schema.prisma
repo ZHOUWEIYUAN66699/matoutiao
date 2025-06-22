@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model HnUser {
+  id          String   @id
+  username    String   @unique
+  about       String?
+  aboutCn     String?  // 翻译后的简介
+  karma       Int      @default(0)
+  submitted   String[] // HN item IDs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  items    HnItem[]    @relation("AuthorItems")
+  comments HnComment[] @relation("AuthorComments")
+
+  @@map("hn_users")
+}
+
+model HnItem {
+  id          Int       @id
+  title       String?
+  titleCn     String?   // 翻译后的标题
+  text        String?   // 正文内容
+  textCn      String?   // 翻译后的正文
+  url         String?
+  score       Int       @default(0)
+  descendants Int       @default(0) // 评论数
+  time        DateTime
+  type        String    // story, ask, job, poll
+  by          String?   // 作者用户名
+  kids        Int[]     // 子评论ID列表
+  deleted     Boolean   @default(false)
+  dead        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  author   HnUser?     @relation("AuthorItems", fields: [by], references: [username])
+  comments HnComment[] @relation("ItemComments")
+
+  @@map("hn_items")
+}
+
+model HnComment {
+  id        Int       @id
+  text      String?
+  textCn    String?   // 翻译后的评论
+  time      DateTime
+  by        String?   // 作者用户名
+  parent    Int?      // 父评论或文章ID
+  kids      Int[]     // 子评论ID列表
+  deleted   Boolean   @default(false)
+  dead      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  author HnUser? @relation("AuthorComments", fields: [by], references: [username])
+  item   HnItem? @relation("ItemComments", fields: [parent], references: [id])
+
+  @@map("hn_comments")
+}
+
+model TranslationJob {
+  id          String   @id @default(cuid())
+  type        String   // "item" or "comment"
+  targetId    Int      // HnItem.id or HnComment.id
+  field       String   // "title", "text"
+  originalText String
+  translatedText String?
+  status      String   @default("pending") // pending, completed, failed
+  error       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("translation_jobs")
+}
