@@ -73,7 +73,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     }
   };
 
-  const extractDomain = (url: string | null) => {
+  const extractDomain = (url: string | undefined) => {
     if (!url) return null;
     try {
       return new URL(url).hostname.replace('www.', '');

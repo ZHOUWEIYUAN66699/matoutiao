@@ -44,7 +44,12 @@ export async function GET(request: NextRequest) {
       processed: 0,
       translated: 0,
       errors: 0,
-      stories: [] as any[]
+      stories: [] as Array<{
+        id: number;
+        title: string | null;
+        titleCn: string | null;
+        translated: boolean;
+      }>
     };
 
     // 处理每个故事

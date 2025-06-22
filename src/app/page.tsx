@@ -9,7 +9,7 @@ import { StatsSection } from '@/components/stats-section';
 import { TopicsSection } from '@/components/topics-section';
 import { FAQSection } from '@/components/faq-section';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Flame, Zap, Star, HelpCircle, Rocket, Briefcase } from 'lucide-react';
+// Icons are used in category configuration
 
 // 模拟数据，每个分类显示更多内容
 const mockStories = {
@@ -446,7 +446,7 @@ const mockStories = {
       titleCn: "问 HN：2024年学习机器学习的最佳方式是什么？",
       text: "I'm a software developer looking to transition into ML...",
       textCn: "我是一名软件开发者，希望转向机器学习领域...",
-      url: null,
+      url: undefined,
       score: 567,
       descendants: 234,
       time: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
@@ -460,7 +460,7 @@ const mockStories = {
       titleCn: "问 HN：如何处理大型代码库中的技术债务？",
       text: "Our team is struggling with legacy code...",
       textCn: "我们团队正在与遗留代码作斗争...",
-      url: null,
+      url: undefined,
       score: 423,
       descendants: 156,
       time: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
@@ -474,7 +474,7 @@ const mockStories = {
       titleCn: "问 HN：你对远程工作有什么经验？",
       text: "Looking for insights on productivity and work-life balance...",
       textCn: "寻找关于生产力和工作生活平衡的见解...",
-      url: null,
+      url: undefined,
       score: 345,
       descendants: 189,
       time: new Date(Date.now() - 7 * 60 * 60 * 1000).toISOString(),
@@ -488,7 +488,7 @@ const mockStories = {
       titleCn: "问 HN：如何在长期项目中保持动力？",
       text: "I'm working on a project that will take months to complete...",
       textCn: "我正在做一个需要几个月才能完成的项目...",
-      url: null,
+      url: undefined,
       score: 298,
       descendants: 134,
       time: new Date(Date.now() - 9 * 60 * 60 * 1000).toISOString(),
@@ -502,7 +502,7 @@ const mockStories = {
       titleCn: "问 HN：学习新编程语言的最佳方式是什么？",
       text: "I want to learn Go but don't know where to start...",
       textCn: "我想学习 Go 但不知道从哪里开始...",
-      url: null,
+      url: undefined,
       score: 267,
       descendants: 98,
       time: new Date(Date.now() - 11 * 60 * 60 * 1000).toISOString(),
@@ -516,7 +516,7 @@ const mockStories = {
       titleCn: "问 HN：你如何管理个人知识库？",
       text: "Looking for tools and strategies for organizing notes...",
       textCn: "寻找组织笔记的工具和策略...",
-      url: null,
+      url: undefined,
       score: 234,
       descendants: 87,
       time: new Date(Date.now() - 13 * 60 * 60 * 1000).toISOString(),
@@ -530,7 +530,7 @@ const mockStories = {
       titleCn: "问 HN：你对微服务 vs 单体架构有什么经验？",
       text: "Debating whether to break up our monolithic application...",
       textCn: "正在讨论是否要拆分我们的单体应用程序...",
-      url: null,
+      url: undefined,
       score: 198,
       descendants: 76,
       time: new Date(Date.now() - 15 * 60 * 60 * 1000).toISOString(),
@@ -544,7 +544,7 @@ const mockStories = {
       titleCn: "问 HN：你如何处理冒名顶替综合症？",
       text: "Feeling like I don't belong in the tech industry...",
       textCn: "感觉我不属于科技行业...",
-      url: null,
+      url: undefined,
       score: 167,
       descendants: 65,
       time: new Date(Date.now() - 17 * 60 * 60 * 1000).toISOString(),
@@ -558,7 +558,7 @@ const mockStories = {
       titleCn: "问 HN：你最喜欢的开发工作流程是什么？",
       text: "Looking for efficient ways to organize my development process...",
       textCn: "寻找组织开发流程的高效方法...",
-      url: null,
+      url: undefined,
       score: 145,
       descendants: 54,
       time: new Date(Date.now() - 19 * 60 * 60 * 1000).toISOString(),
@@ -572,7 +572,7 @@ const mockStories = {
       titleCn: "问 HN：如何调试复杂的分布式系统？",
       text: "Our microservices architecture is becoming hard to debug...",
       textCn: "我们的微服务架构变得难以调试...",
-      url: null,
+      url: undefined,
       score: 123,
       descendants: 43,
       time: new Date(Date.now() - 21 * 60 * 60 * 1000).toISOString(),
