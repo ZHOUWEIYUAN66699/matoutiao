@@ -105,23 +105,23 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Flame;
 
   return (
-    <Card className="h-[650px] flex flex-col overflow-hidden">
-      <CardHeader className="pb-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-b">
+    <Card className="flex flex-col overflow-hidden min-h-[600px] max-h-[800px]">
+      <CardHeader className="pb-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-b shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
               <IconComponent className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <CardTitle className="text-base font-semibold text-gray-900 dark:text-gray-100">
                 {category.name}
               </CardTitle>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 line-clamp-2">
                 {category.description}
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 shrink-0">
             <Link href={`/category/${category.key}`}>
               <Button variant="ghost" size="sm" className="h-7 w-7 p-0 hover:bg-white/50 dark:hover:bg-gray-800/50">
                 <Eye className="h-3.5 w-3.5" />
@@ -138,8 +138,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
         </div>
       </CardHeader>
 
-      <CardContent className="flex-1 flex flex-col p-4">
-        <div className="flex-1 space-y-3">
+      <CardContent className="flex-1 flex flex-col p-4 overflow-hidden">
+        <div className="flex-1 space-y-3 overflow-y-auto">
           {currentStories.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 dark:text-gray-400 text-sm">暂无内容</p>
@@ -147,18 +147,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
           ) : (
             currentStories.map((story, index) => (
               <div key={story.id} className="border-b border-gray-100 dark:border-gray-800 pb-3 last:border-b-0 last:pb-0">
-                <div className="flex items-start justify-between mb-1.5">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-medium text-gray-400 dark:text-gray-500">
+                <div className="flex items-start justify-between mb-2 gap-2">
+                  <div className="flex items-center space-x-2 min-w-0 flex-1">
+                    <span className="text-xs font-medium text-gray-400 dark:text-gray-500 shrink-0">
                       #{startIndex + index + 1}
                     </span>
                     {story.url && (
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                      <span className="text-xs text-gray-400 dark:text-gray-500 truncate">
                         ({extractDomain(story.url)})
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center space-x-2 text-xs text-gray-400 dark:text-gray-500">
+                  <div className="flex items-center space-x-2 text-xs text-gray-400 dark:text-gray-500 shrink-0">
                     <div className="flex items-center space-x-1">
                       <TrendingUp className="h-3 w-3" />
                       <span>{story.score}</span>
@@ -172,7 +172,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
                   </div>
                 </div>
 
-                <h3 className="text-sm font-medium leading-tight mb-1.5 line-clamp-2 text-gray-900 dark:text-gray-100">
+                <h3 className="text-sm font-medium leading-5 mb-2 line-clamp-3 text-gray-900 dark:text-gray-100">
                   {story.url ? (
                     <Link 
                       href={story.url} 
@@ -193,11 +193,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
                 </h3>
 
                 <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 min-w-0 flex-1">
                     {story.by && (
                       <div className="flex items-center space-x-1">
                         <User className="h-3 w-3" />
-                        <span>{story.by}</span>
+                        <span className="truncate">{story.by}</span>
                       </div>
                     )}
                     <div className="flex items-center space-x-1">
@@ -209,7 +209,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
                   <Link 
                     href={`https://news.ycombinator.com/item?id=${story.id}`}
                     target="_blank"
-                    className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors shrink-0"
                   >
                     原文
                   </Link>
@@ -221,7 +221,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
 
         {/* 分页控制 */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800 mt-3 shrink-0">
             <Button 
               variant="ghost" 
               size="sm" 
@@ -230,11 +230,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
               className="flex items-center space-x-1 h-7 text-xs"
             >
               <ChevronLeft className="h-3 w-3" />
-              <span>上一页</span>
+              <span className="hidden sm:inline">上一页</span>
             </Button>
             
             <div className="flex items-center space-x-1">
-              {Array.from({ length: Math.min(totalPages, 5) }).map((_, index) => (
+              {Array.from({ length: Math.min(totalPages, 3) }).map((_, index) => (
                 <Button
                   key={index}
                   variant={currentPage === index + 1 ? "default" : "ghost"}
@@ -254,14 +254,14 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
               disabled={currentPage === totalPages}
               className="flex items-center space-x-1 h-7 text-xs"
             >
-              <span>下一页</span>
+              <span className="hidden sm:inline">下一页</span>
               <ChevronRight className="h-3 w-3" />
             </Button>
           </div>
         )}
 
         {/* 查看更多按钮 */}
-        <div className="pt-3 border-t border-gray-100 dark:border-gray-800 mt-auto">
+        <div className="pt-3 border-t border-gray-100 dark:border-gray-800 shrink-0">
           <Link href={`/category/${category.key}`}>
             <Button variant="outline" className="w-full h-8 text-xs" size="sm">
               查看更多 {category.name} 内容

@@ -969,7 +969,7 @@ export default async function Home() {
         <Hero />
         <main className="container mx-auto px-4 py-12">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-fr">
               {categories.map((category) => (
                 <Suspense key={category.key} fallback={<CategoryCardSkeleton />}>
                   <CategoryCard 
